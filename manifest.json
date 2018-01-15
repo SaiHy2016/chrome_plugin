@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "pug",
+  "version": "1.0",
+  "description": "我的第一个Chrome扩展",
+  "icons": {
+    "16": "images/pug_16.png",
+    "48": "images/pug_48.png",
+    "128": "images/pug_128.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "19": "images/pug_16.png",
+      "38": "images/pug_48.png"
+    },
+    "default_title": "我的pug",
+    "default_popup": "popup.html"
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "permissions": [
+    "tabs"
+  ]
+}
