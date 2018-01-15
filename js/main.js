@@ -33,23 +33,50 @@ function findIP(onNewIP) { //  onNewIp - your listener function for new IPs
 new Vue({
     el:'#app',
     data:{
-        ip:'',
-        url:''
+        navs:['ip-qr','some'],
+        name:['二维码','aa'],
+        step:0
     },
-    template:`<div>本地ip地址:{{ip}}<br>{{url}}
-                    <div ref="qr" style="text-align: center"></div>
+    template:`<div id="app">
+                    <nav style="cursor: pointer">
+                        <a v-for="(n,i) in name" 
+                        :class="i==step&&'active'"
+                        @click="switchNav(i)">{{name[i]}}</a>
+                    </nav>
+                    <component :is="navs[step]"></component>           
                 </div>`,
     mounted:function () {
-        findIP(ip=>{
-            this.ip=ip;
-            chrome.tabs.query({
-                active: true
-            }, function(tabArray){
-                console.log(tabArray[0].url)
-                this.url=tabArray[0].url.replace(/:\/\/[^\/]*/,'://'+this.ip);
-                $(this.$refs.qr).qrcode({text:this.url,width:100,height:100})
-            }.bind(this));
-        });
 
+    },
+    methods:{
+        switchNav(s){
+            this.step=s
+        }
+    },
+    components:{
+        'ip-qr':{
+            template:`<div>本地ip地址:{{ip}}<br>{{url}}<div ref="qr" style="text-align: center"></div></div>`,
+            data(){
+                return {
+                    ip: '',
+                    url: ''
+                }
+            },
+            mounted(){
+                findIP(ip=>{
+                    this.ip=ip;
+                    chrome.tabs.query({
+                        active: true
+                    }, function(tabArray){
+                        console.log(tabArray[0].url)
+                        this.url=tabArray[0].url.replace(/:\/\/[^\/]*/,'://'+this.ip);
+                        $(this.$refs.qr).qrcode({text:this.url,width:100,height:100})
+                    }.bind(this));
+                });
+            }
+        },
+        'some':{
+
+        }
     }
 })

@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "pug",
-  "version": "1.0",
+  "version": "1.1",
   "description": "我的第一个Chrome扩展",
   "icons": {
     "16": "images/pug_16.png",
